@@ -1,0 +1,34 @@
+<launch>
+  <arg name="use_sim_time" value="false"/>
+  <arg name="host"/>
+  <arg name="receive_port" default="5000"/>
+  <arg name="width" default="640"/>
+  <arg name="height" default="480"/>
+  <arg name="fps" default="30"/>
+  <arg name="robot" default=""/>
+
+  <group ns="$(arg robot)">
+    <include file="$(find ar_pose)/launch/ar_pose_multi.launch"/>
+
+    <node name="star_pose" pkg="my_pf" type="star_center_position.py">
+     <param name="robot_name" value="$(arg robot)"/>
+     <param name="pose_correction" value="0.55" />
+    </node>
+
+    <include file="$(find neato_node)/launch/bringup_minimal_rev2.launch">
+      <arg name="host" value="$(arg host)"/>
+      <arg name="robot" value="$(arg robot)" /> 
+    </include>
+
+    <include file="$(find gscam)/examples/raspi_nodelet_udp.launch">
+      <arg name="host" value="$(arg host)"/>
+      <arg name="receive_port" value="$(arg receive_port)"/>
+      <arg name="width" value="$(arg width)"/>
+      <arg name="height" value="$(arg height)"/>
+      <arg name="fps" value="$(arg fps)"/>
+    </include>
+  </group>
+</launch>
+
+
+

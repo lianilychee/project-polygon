@@ -1,0 +1,12 @@
+<launch>
+<include file="$(find project_polygon)/launch/bringup_multi.launch">
+	<arg name="host" value="192.168.17.205"/>
+	<arg name="robot" value="robot0"/>
+	<arg name="receive_port" value="5002"/>
+</include> 
+<include file="$(find project_polygon)/launch/bringup_multi.launch">
+	<arg name="host" value="192.168.17.202"/>
+	<arg name="robot" value="robot1"/>
+	<arg name="receive_port" value="5003"/>
+</include>
+</launch>

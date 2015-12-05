@@ -1,0 +1,13 @@
+digraph G {
+"base_link" -> "base_laser_link"[label="Broadcaster: /robot0/laser_to_base\nAverage rate: 40.097 Hz\nMost recent transform: 1449173711.285 ( -0.019 sec old)\nBuffer length: 4.913 sec\n"];
+"odom" -> "base_link"[label="Broadcaster: /robot1/neato\nAverage rate: 5.217 Hz\nMost recent transform: 1449173711.056 ( 0.210 sec old)\nBuffer length: 4.600 sec\n"];
+"STAR" -> "odom_dummy"[label="Broadcaster: /robot1/star_pose\nAverage rate: 30.444 Hz\nMost recent transform: 1449173711.264 ( 0.002 sec old)\nBuffer length: 4.927 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1449173711.266"[ shape=plaintext ] ;
+ }->"STAR";
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1449173711.266"[ shape=plaintext ] ;
+ }->"odom";
+}
