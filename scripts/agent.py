@@ -6,10 +6,8 @@ information in the packets.
 """
 
 import rospy
-from geometry_msgs.msg import Twist
-from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Twist, PoseStamped
 from project_polygon.msg import Packet
-import tf
 import numpy as np
 import math
 import helper_funcs as hp
@@ -30,8 +28,7 @@ class Agent:
         self.last_stamp = rospy.Time.now()
         self.xy_vel = np.array([0.0, 0.0])
 
-        # odom data
-        self.dy = i     # for makeshift world odom
+        # odom data (now using ceiling markers)
         self.x = None
         self.y = None
         self.yaw = None
@@ -52,16 +49,15 @@ class Agent:
         self.k_pz = 1.0
 
         rospy.Subscriber('robot{}/packet'.format(i), Packet, self.assign_data)
-        rospy.Subscriber('robot{}/odom'.format(i), Odometry, self.assign_odom)
+        rospy.Subscriber('robot{}/STAR_pose_continuous'.format(i), PoseStamped, self.assign_odom)
         self.pub = rospy.Publisher('robot{}/cmd_vel'.format(i), Twist, queue_size=10)
 
     def assign_odom(self, msg):
         """
-        Save x, y, and yaw from odometry data
+        Save x, y, and yaw from odometry data (now using ceiling markers)
         """
-        pose = msg.pose.pose
+        pose = msg.pose
         self.x, self.y, self.yaw = hp.convert_pose_to_xy_and_theta(pose)
-        self.y += self.dy
 
     def assign_data(self, data):
         """
