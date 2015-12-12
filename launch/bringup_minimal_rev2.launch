@@ -1,0 +1,16 @@
+<launch>
+  <arg name="host"/>
+  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find neato_simulator)/model/neato.urdf.xacro'" />
+  <arg name="robot" default="" />
+
+  <param name="robot_description" command="$(arg urdf_file)" />
+  <arg name="use_sim_time" value="false"/>
+  <node pkg="tf" type="static_transform_publisher" name="laser_to_base" 
+    args="-0.1016 0 0.0889 -3.14159 0 0 $(arg robot)_base_link $(arg robot)_base_laser_link 50" />
+
+  <node name="neato" pkg="project_polygon" type="neato.py" output="screen">
+    <param name="port" value="$(arg host)" />
+    <param name="robot" value="$(arg robot)" />
+  </node>
+  <node name="scan_stabilizer" pkg="neato_node" type="fix_scan_fast"/>
+</launch>

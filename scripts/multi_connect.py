@@ -14,13 +14,13 @@ import sys
 import termios
 import helper_funcs as hp
 
-def connect(ip, namespace, port):
+def connect(ip, namespace, port, fps=10):
     """
     Use subprocess to call 'roslaunch project_polygon bringup_multi.launch'
     with the given parameters, return process so it can be killed later
     """
     cmd = ['roslaunch', 'project_polygon', 'bringup_multi.launch']
-    args = 'host:={} robot:={} receive_port:={}'.format(ip, namespace, port)
+    args = 'host:={} robot:={} receive_port:={} fps:={}'.format(ip, namespace, port, fps)
     cmd.extend(shlex.split(args))
 
     proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
